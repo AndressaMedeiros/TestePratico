@@ -72,21 +72,32 @@ $(document).ready(function () {
                 }
 
                 $form.find('#CPF').val(cpfLimpo);
+                var formData = new FormData();
+                formData.append("Id", idCliente);
+                formData.append("NOME", $form.find("#Nome").val());
+                formData.append("CEP", $form.find("#CEP").val());
+                formData.append("Email", $form.find("#Email").val());
+                formData.append("Sobrenome", $form.find("#Sobrenome").val());
+                formData.append("Nacionalidade", $form.find("#Nacionalidade").val());
+                formData.append("Estado", $form.find("#Estado").val());
+                formData.append("Cidade", $form.find("#Cidade").val());
+                formData.append("Logradouro", $form.find("#Logradouro").val());
+                formData.append("Telefone", $form.find("#Telefone").val());
+                formData.append("CPF", cpfLimpo);
+
+                if (typeof beneficiarios !== 'undefined' && beneficiarios.length > 0) {
+                    for (var i = 0; i < beneficiarios.length; i++) {
+                        formData.append('Beneficiarios[' + i + '].Nome', beneficiarios[i].Nome);
+                        formData.append('Beneficiarios[' + i + '].CPF', beneficiarios[i].CPF);
+                    }
+                }
+
                 $.ajax({
                     url: urlPost,
                     method: "POST",
-                    data: {
-                        "NOME": $form.find("#Nome").val(),
-                        "CEP": $form.find("#CEP").val(),
-                        "Email": $form.find("#Email").val(),
-                        "Sobrenome": $form.find("#Sobrenome").val(),
-                        "Nacionalidade": $form.find("#Nacionalidade").val(),
-                        "Estado": $form.find("#Estado").val(),
-                        "Cidade": $form.find("#Cidade").val(),
-                        "Logradouro": $form.find("#Logradouro").val(),
-                        "Telefone": $form.find("#Telefone").val(),
-                        "CPF": cpfLimpo
-                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     error:
                     function (r) {
                         if (r.status == 400)

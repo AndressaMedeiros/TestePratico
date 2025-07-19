@@ -46,6 +46,32 @@ function renderizarGridBeneficiarios() {
 }
 
 $(document).ready(function () {
+    
+    $('#modalBeneficiarios').on('show.bs.modal', function () {
+        var clienteId = obj ? obj.Id : null;
+        
+        if (clienteId) {
+            $.ajax({
+                url: '/Cliente/ObterBeneficiarios',
+                method: 'GET',
+                data: { idCliente: clienteId },
+                success: function (result) {
+                    beneficiarios = result;
+                    renderizarGridBeneficiarios();
+                },
+                error: function (xhr, status, error) {
+                    ModalDialog("Erro", "Não foi possível carregar os beneficiários.");
+                }
+            });
+        } else {
+            beneficiarios = [];
+            renderizarGridBeneficiarios(); 
+        }
+        $('#BeneficiarioCPF').val('');
+        $('#BeneficiarioNome').val('');
+        beneficiarioEditando = null;
+    });
+
     $('#BeneficiarioCPF').on('input', function () {
         var cursor = this.selectionStart;
         var originalLength = this.value.length;
@@ -117,10 +143,4 @@ $(document).ready(function () {
         $('#modalConfirmaExclusaoBeneficiario').modal('hide');
     });
 
-    $('#modalBeneficiarios').on('show.bs.modal', function () {
-        $('#BeneficiarioCPF').val('');
-        $('#BeneficiarioNome').val('');
-        beneficiarioEditando = null;
-        renderizarGridBeneficiarios();
-    });
 });

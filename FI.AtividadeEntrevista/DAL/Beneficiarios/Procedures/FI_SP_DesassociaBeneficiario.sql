@@ -1,0 +1,9 @@
+CREATE PROCEDURE FI_SP_DesassociaBeneficiario
+    @Id BIGINT
+AS
+BEGIN
+    UPDATE BENEFICIARIOS
+    SET IdCliente = NULL
+    WHERE Id = @Id
+END
+GO

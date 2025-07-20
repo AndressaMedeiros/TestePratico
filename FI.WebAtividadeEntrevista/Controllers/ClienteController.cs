@@ -101,15 +101,32 @@ namespace WebAtividadeEntrevista.Controllers
 
                 if (model.Beneficiarios != null && model.Beneficiarios.Count > 0)
                 {
+                    var boBeneficiario = new BoBeneficiario();
+                    var beneficiariosAtuais = boBeneficiario.Listar(model.Id);
+
                     foreach (var b in model.Beneficiarios)
                     {
+                        var beneficiarioExistente = beneficiariosAtuais.FirstOrDefault(ba => ba.CPF == b.CPF);
                         var beneficiarioDml = new Beneficiario
                         {
+                            Id = beneficiarioExistente?.Id ?? 0,
                             IdCliente = model.Id,
                             Nome = b.Nome,
                             CPF = b.CPF
                         };
-                        new BoBeneficiario().Incluir(beneficiarioDml);
+
+                        if (beneficiarioExistente != null)
+                            boBeneficiario.Alterar(beneficiarioDml);
+                        else
+                            boBeneficiario.Incluir(beneficiarioDml);
+                    }
+
+                    var cpfsAtualizados = model.Beneficiarios.Select(b => b.CPF).ToList();
+                    var beneficiariosParaRemover = beneficiariosAtuais.Where(ba => !cpfsAtualizados.Contains(ba.CPF));
+                    
+                    foreach (var beneficiario in beneficiariosParaRemover)
+                    {
+                        boBeneficiario.ExcluirBeneficiario(beneficiario.Id);
                     }
                 }
                                
@@ -197,14 +214,6 @@ namespace WebAtividadeEntrevista.Controllers
             var bo = new BoBeneficiario();
             var beneficiarios = bo.Listar(idCliente);
             return Json(beneficiarios.Select(b => new { Nome = b.Nome, CPF = b.CPF, Id = b.Id }), JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult DesassociarBeneficiario(long id)
-        {
-            var bo = new BoBeneficiario();
-            bo.DesassociarCliente(id);
-            return Json(new { sucesso = true });
         }
     }
 }

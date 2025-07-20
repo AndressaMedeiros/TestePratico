@@ -1,5 +1,6 @@
 var beneficiarios = [];
 var beneficiarioEditando = null;
+var beneficiariosExistentes = [];
 
 function formatarCPF(cpf) {
     cpf = cpf ? cpf.replace(/\D/g, '') : '';
@@ -57,6 +58,13 @@ $(document).ready(function () {
                 data: { idCliente: clienteId },
                 success: function (result) {
                     beneficiarios = result;
+                    beneficiariosExistentes = result.map(function(b) {
+                        return {
+                            id: b.Id,
+                            cpf: b.CPF,
+                            nome: b.Nome
+                        };
+                    });
                     renderizarGridBeneficiarios();
                 },
                 error: function (xhr, status, error) {
@@ -65,6 +73,7 @@ $(document).ready(function () {
             });
         } else {
             beneficiarios = [];
+            beneficiariosExistentes = [];
             renderizarGridBeneficiarios(); 
         }
         $('#BeneficiarioCPF').val('');

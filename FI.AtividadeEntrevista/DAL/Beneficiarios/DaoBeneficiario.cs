@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Data.SqlClient;
+using FI.AtividadeEntrevista.BLL;
 
 namespace FI.AtividadeEntrevista.DAL
 {
@@ -10,12 +11,13 @@ namespace FI.AtividadeEntrevista.DAL
     {
         internal long Incluir(Beneficiario beneficiario)
         {
-            var parametros = new List<System.Data.SqlClient.SqlParameter>();
-            parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", beneficiario.IdCliente));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", beneficiario.Nome));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", beneficiario.CPF));
+            var parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("IdCliente", beneficiario.IdCliente));
+            parametros.Add(new SqlParameter("Nome", beneficiario.Nome));
+            parametros.Add(new SqlParameter("CPF", beneficiario.CPF));
 
             DataSet ds = base.Consultar("FI_SP_IncBeneficiario", parametros);
+
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
                 long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
@@ -43,12 +45,22 @@ namespace FI.AtividadeEntrevista.DAL
             return beneficiarios;
         }
 
-        internal void DesassociarCliente(long id)
+        internal void ExcluirBeneficiario(long id)
         {
             var parametros = new List<SqlParameter>();
             parametros.Add(new SqlParameter("Id", id));
 
-            base.Executar("FI_SP_DesassociaBeneficiario", parametros);
+            base.Executar("FI_SP_DelBeneficiario", parametros);
+        }
+
+        public void Alterar(Beneficiario beneficiario)
+        {
+            var parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("Id", beneficiario.Id));
+            parametros.Add(new SqlParameter("Nome", beneficiario.Nome));
+            parametros.Add(new SqlParameter("CPF", beneficiario.CPF));
+
+            DataSet ds = base.Consultar("FI_SP_AltBeneficiario", parametros);
         }
     }
 }

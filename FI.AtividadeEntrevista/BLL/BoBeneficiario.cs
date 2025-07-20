@@ -18,10 +18,16 @@ namespace FI.AtividadeEntrevista.BLL
             return dao.Listar(idCliente);
         }
 
-        public void DesassociarCliente(long id)
+        public void ExcluirBeneficiario(long id)
         {
             DaoBeneficiario dao = new DaoBeneficiario();
-            dao.DesassociarCliente(id);
+            dao.ExcluirBeneficiario(id);
+        }
+
+        public void Alterar(Beneficiario beneficiario)
+        {
+            DaoBeneficiario dao = new DaoBeneficiario();
+            dao.Alterar(beneficiario);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Data.SqlClient;
-using FI.AtividadeEntrevista.BLL;
 
 namespace FI.AtividadeEntrevista.DAL
 {
@@ -29,7 +28,7 @@ namespace FI.AtividadeEntrevista.DAL
             var parametros = new List<SqlParameter>();
             parametros.Add(new SqlParameter("IdCliente", idCliente));
 
-            DataSet ds = base.Consultar("FI_SP_ConsBeneficiario", parametros);
+            DataSet ds = base.Consultar("FI_SP_ConsBeneficiarios", parametros);
             List<Beneficiario> beneficiarios = new List<Beneficiario>();
             if (ds.Tables[0].Rows.Count > 0)
             {

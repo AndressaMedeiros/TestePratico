@@ -96,76 +96,8 @@
 </form>
 
 
+@Html.Partial("ModalBeneficiarios")
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/Clientes/FI.Beneficiarios.js"></script>
-
-<div class="modal fade" id="modalBeneficiarios" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px;">
-                <h4 class="modal-title mb-0" style="margin: 0; font-size: 18px;">Beneficiários</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" style="margin-top: 0;"><span aria-hidden="true" style="font-size: 24px;"></span></button>
-            </div>
-
-            <div class="modal-body">
-                <form id="formBeneficiario" autocomplete="off" class="mb-2">
-
-                    <div class="form-row align-items-end">
-                        <div class="form-group col-md-5">
-                            <label for="BeneficiarioCPF">CPF:</label>
-                            <input type="text" class="form-control" id="BeneficiarioCPF" maxlength="14" placeholder="Ex.: 010.011.111-00">
-                        </div>
-
-                        <div class="form-group col-md-5">
-                            <label for="BeneficiarioNome">Nome:</label>
-                            <input type="text" class="form-control" id="BeneficiarioNome" maxlength="100" placeholder="Ex.: Maria">
-                        </div>
-
-                        <div class="form-group col-md-2" style="margin-top: 25px;">
-                            <button type="button" id="btnIncluirBeneficiario" class="btn btn-success btn-block" >Incluir</button>
-                        </div>
-                    </div>
-                </form>
-
-                <table class="table" id="gridBeneficiarios">
-                    <thead>
-                        <tr>
-                            <th>CPF</th>
-                            <th>Nome</th>
-                            <th style="width: 120px;">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Linhas de beneficiários serão inseridas via JS -->
-                    </tbody>
-                </table>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de confirmação de exclusão de beneficiário -->
-    <div class="modal fade" id="modalConfirmaExclusaoBeneficiario" tabindex="-1" role="dialog" aria-labelledby="modalConfirmaExclusaoBeneficiarioLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
-                    <h4 class="modal-title" id="modalConfirmaExclusaoBeneficiarioLabel">Confirmação</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Deseja realmente excluir este beneficiário?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="btnConfirmaExclusaoBeneficiario">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

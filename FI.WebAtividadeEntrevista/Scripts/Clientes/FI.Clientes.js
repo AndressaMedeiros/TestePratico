@@ -1,32 +1,4 @@
-﻿function formatarCPF(cpf) {
-    cpf = cpf ? cpf.replace(/\D/g, '') : '';
-    if (cpf.length === 11) {
-        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    }
-    return cpf;
-}
-
-function removerMascaraCPF(cpf) {
-    return cpf ? cpf.replace(/\D/g, '') : '';
-}
-
-function validarCPF(cpf) {
-    cpf = cpf ? cpf.replace(/\D/g, '') : '';
-    if (cpf.length !== 11 || /^([0-9])\1+$/.test(cpf)) return false;
-    var soma = 0, resto;
-    for (var i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-    resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
-    if (resto !== parseInt(cpf.substring(9, 10))) return false;
-    soma = 0;
-    for (var i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-    resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
-    if (resto !== parseInt(cpf.substring(10, 11))) return false;
-    return true;
-}
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $('#formCadastro #CPF').on('input', function () {
         var cursor = this.selectionStart;
         var originalLength = this.value.length;
@@ -69,9 +41,9 @@ $(document).ready(function () {
                 }
 
                 $form.find('#CPF').val(cpfLimpo);
-                
+
                 var formData = new FormData($form[0]);
-                
+
                 if (typeof beneficiarios !== 'undefined' && beneficiarios.length > 0) {
                     for (var i = 0; i < beneficiarios.length; i++) {
                         formData.append('Beneficiarios[' + i + '].Nome', beneficiarios[i].Nome);
@@ -109,6 +81,34 @@ $(document).ready(function () {
         });
     });
 });
+
+function formatarCPF(cpf) {
+    cpf = cpf ? cpf.replace(/\D/g, '') : '';
+    if (cpf.length === 11) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+    return cpf;
+}
+
+function removerMascaraCPF(cpf) {
+    return cpf ? cpf.replace(/\D/g, '') : '';
+}
+
+function validarCPF(cpf) {
+    cpf = cpf ? cpf.replace(/\D/g, '') : '';
+    if (cpf.length !== 11 || /^([0-9])\1+$/.test(cpf)) return false;
+    var soma = 0, resto;
+    for (var i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(9, 10))) return false;
+    soma = 0;
+    for (var i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(10, 11))) return false;
+    return true;
+}
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
